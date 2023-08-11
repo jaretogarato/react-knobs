@@ -1,2 +1,4 @@
 .DS_Store
 knobs-archive
+node_modules
+node_modules/*
