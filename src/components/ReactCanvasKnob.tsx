@@ -360,15 +360,22 @@ const ReactCanvasKnob: React.FC<KnobProps> = ({
 	// }, [w, h, thickness, lineCap, bgColor, fgColor, value, startAngle, endAngle]) // Add dependencies as needed
 
 	const renderCenter = (props) => {
-		const { displayCustom, displayInput, disableTextInput, readOnly, value } =
-			props
+		const {
+			displayCustom,
+			displayInput,
+			disableTextInput,
+			readOnly,
+			sixLevels,
+		} = props
+
+		console.log('sixLevels in renderCenter', sixLevels)
 
 		if (displayInput) {
 			return (
 				<input
 					style={inputStyle()} // Assuming inputStyle is defined in the component
 					type='text'
-					value={value}
+					value={sixLevels}
 					onChange={handleTextInput} // Assuming handleTextInput is defined in the component
 					onKeyDown={handleArrowKey} // Assuming handleArrowKey is defined in the component
 					readOnly={readOnly || disableTextInput}
@@ -378,6 +385,22 @@ const ReactCanvasKnob: React.FC<KnobProps> = ({
 			return displayCustom()
 		}
 		return null
+	}
+
+	const computeSixLevels = (value) => {
+		if (value < 10) {
+			return 1
+		} else if (value < 20) {
+			return 2
+		} else if (value < 30) {
+			return 3
+		} else if (value < 40) {
+			return 4
+		} else if (value < 50) {
+			return 5
+		} else {
+			return 6
+		}
 	}
 
 	const inputStyle = (): React.CSSProperties => ({
@@ -396,6 +419,11 @@ const ReactCanvasKnob: React.FC<KnobProps> = ({
 		WebkitAppearance: 'none',
 	})
 
+	let sixLevels = computeSixLevels(value)
+	console.log('sixLevels', sixLevels)
+	console.log(typeof value)
+	console.log(typeof sixLevels)
+
 	return (
 		<div
 			className={className}
@@ -410,13 +438,13 @@ const ReactCanvasKnob: React.FC<KnobProps> = ({
 				onMouseDown={readOnly ? undefined : handleMouseDown}
 				title={title ? `${title}: ${value}` : value.toString()}
 			/>
-			{/* // Assuming renderCenter is defined in the component and expects the props */}
+
 			{renderCenter({
 				displayCustom,
 				displayInput,
 				disableTextInput,
 				readOnly,
-				value,
+				sixLevels,
 			})}
 		</div>
 	)
