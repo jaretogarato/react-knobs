@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import '../styles/knobs.css'
+import '../styles/ui.css'
 
 const Knob = ({
 	min = 0,
@@ -18,10 +19,54 @@ const Knob = ({
 
 	const handleValueChange = (newValue) => {
 		setCurrentValue(Math.min(max, Math.max(min, newValue)))
+		console.log('newValue', newValue)
+
 		if (onChange) {
 			onChange(newValue)
 		}
 	}
+
+	function toRadians(degrees) {
+		return degrees * (Math.PI / 180)
+	}
+
+	// const getIndicator = ({
+	// 	angle,
+	// 	indicatorAutoPosition,
+	// 	indicatorAutoRotate,
+	// }) => {
+	// 	// const self = this,
+	// 	let indicator = {}
+
+	// 	console.log('getIndicator', angle, indicatorAutoPosition)
+
+	// 	if (indicatorAutoPosition) {
+	// 		const rads = toRadians(angle)
+
+	// 		// Subtract Y component because of canvas's inverted Y coordinate compared to output of sin.
+
+	// 		indicator.x =
+	// 			__centerPageX - __clientLeft + indicatorRadius * Math.cos(rads)
+
+	// 		indicator.y =
+	// 			__centerPageY - __clientTop - indicatorRadius * Math.sin(rads)
+	// 	} else {
+	// 		// If not positioning, set x & y to the center of the knob
+	// 		indicator.x = __centerPageX - __clientLeft
+	// 		indicator.y = __centerPageY - __clientTop
+	// 	}
+
+	// 	if (indicatorAutoRotate) {
+	// 		indicator.angle = angle - indicatorStartAngle
+	// 	} else {
+	// 		indicator.angle = 0
+	// 	}
+
+	// 	return indicator
+	// }
+
+	// getIndicator({ angle: 45, indicatorAutoPosition: true });
+	// Output: 'getIndicator', 45, true
 
 	const calculateValueFromEvent = (e: MouseEvent | TouchEvent) => {
 		if (knobRef.current) {
@@ -97,15 +142,33 @@ const Knob = ({
 		>
 			<div
 				className='ui-knob ui-knob-shadow'
-				style={{ position: 'absolute', width: '100%', height: '100%' }}
+				style={{
+					position: 'absolute',
+					width: '100%',
+					height: '100%',
+					border: '1px solid orange',
+				}}
+			></div>
+			<div
+				className='ui-knob-indicator'
+				style={{ transform: `rotate(${angle}deg)`, position: 'absolute' }}
 			>
-				<div
-					className='ui-knob-indicator'
-					style={{ transform: `rotate(${angle}deg)`, position: 'absolute' }}
-				>
-					{/* Additional content for the indicator */}
-				</div>
+				{/* Additional content for the indicator */}
 			</div>
+			<input
+				id='position-rotate-css-knob'
+				name='position-rotate-css-knob'
+				type='range'
+				value='50'
+				min='0'
+				max='100'
+				data-angle-start='210'
+				data-angle-end='-30'
+				data-indicator-auto-position='true'
+				data-indicator-auto-rotate='true'
+				data-indicator-radius='22'
+				style={{ display: 'none' }}
+			></input>
 		</div>
 	)
 }

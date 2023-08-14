@@ -59,6 +59,9 @@
 		color-stop(1, #dddddd)
 	);
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#dddddd')";
+	width: 10px;
+	height: 80px;
+	border-radius: 8px;
 }
 
 .rotate-knob.ui-knob {
